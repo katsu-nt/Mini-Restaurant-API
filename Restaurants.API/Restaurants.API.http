@@ -1,0 +1,7 @@
+@host = https://localhost
+@port = 5001
+@apiHost = {{host}}:{{port}}
+
+GET {{apiHost}}/weatherforecast
+Accept: application/json
+
