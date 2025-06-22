@@ -2,8 +2,9 @@
 @port = 5001
 @apiHost = {{host}}:{{port}}
 
+@token = CfDJ8DxMdlGemMVGk2rSzWsw7o96KvSfk4r52b4DHcCijJVgQ2ElppppTRBDnEeun4b0h-Wk2pQgJP50BQveyQD-jqP-sqHMuJA_Qekvf6YVWmVLyksUOT6ajAd3se2JHOHqDPhfl8dUdVQEa23mjcqQaz6dW8jJX_TShC9GJ_iqiq1knXqBFg75t9QMJbYDIhx5O2__60vk2PCa6o4pYc3V_KgK_785YDOye6lsEeOVd2-58IK2iu3VSsOJlru1UDtB6wekIO2zv77wYIkZTdb58PYEvqCM9Je7MyulkJzhBhi4o_fGqe-Bkmpckt2giX9jO3xxQHJPlZn7ZPCg3Z-Bq_aHqZCiDrwB9YqzxBztLqzyi4PGmxmVRqmZGXmaABpfCZoZom2dejNIKiXs47s_LrBQjn35Hyexsa5sVzVdloLxgxzKmOyv7ka06DgjZEMI93tJydZVM9Rju5b9YW5Nu2D87Iecq81rcAUgdi8lRar_APE9IGCtvlyd2yzj1NO8S5Sw5e57N7pjqk3pygXHsFPeYOE1E8OXOR3AeW9mflG0_2Q0DnXEXK-D67yR3Y-pzSKJyroywX_yvc7plBahEVkL2ahjOm3qGRz00zKJ2sLCU3GTzIyGxQCPFILTwesKe6orV_PoUCn_gUSDc1UfgRMsytLK9zgKQQDL9OPoktgcrW2r8rWuhoaTpsd4zHhogA
 GET {{apiHost}}/api/restaurants
-Accept: application/json
+Authorization: : Bearer {{token}}
 
 ###
 GET {{apiHost}}/api/restaurants/2004
@@ -38,4 +39,24 @@ Content-Type: application/json
   "Name": "Sample patch",
   "Description": "This is a sample restaurant description.",
   "HasDelivery": true
+}
+
+
+###
+POST {{apiHost}}/api/identity/register
+Content-Type: application/json
+
+{
+  "email":"admin@test.com",
+  "password":"Password1!"
+}
+
+
+###
+POST {{apiHost}}/api/identity/login
+Content-Type: application/json
+
+{
+  "email":"user@test.com",
+  "password":"Password1!"
 }
