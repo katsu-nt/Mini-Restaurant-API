@@ -22,18 +22,30 @@ public class RestaurantsRepository(RestaurantsDBContext dbContext) : IRestaurant
     }
 
     public async Task<IEnumerable<Restaurant>> GetAllAsync()
-{
-    var restaurants = await dbContext.Restaurants
-        .Include(r => r.Dishes)
-        .ToListAsync();
+    {
+        var restaurants = await dbContext.Restaurants
+            .Include(r => r.Dishes)
+            .ToListAsync();
 
-    return restaurants;
-}
+        return restaurants;
+    }
 
+    public async Task<(IEnumerable<Restaurant>,int)> GetMatchingAsync(string? searchPhrase, int pageSize, int pageNumber)
+    {
+        var searchPhraseLower = searchPhrase?.ToLower();
+        var baseQuery = dbContext.Restaurants.Where(r => searchPhraseLower == null || (r.Name.ToLower().Contains(searchPhraseLower) || r.Description.ToLower().Contains(searchPhraseLower)));
+        var totalCount = await baseQuery.CountAsync();
+        var restaurants = await baseQuery
+        .Skip(pageSize * (pageNumber - 1))
+        .Take(pageSize)
+       .Include(r => r.Dishes)
+       .ToListAsync();
+        return (restaurants,totalCount);
+    }
 
     public async Task<Restaurant?> GetRestaurantByIdAsync(int id)
     {
-        var restaurant = await dbContext.Restaurants.Include(r=>r.Dishes).FirstOrDefaultAsync(r => r.Id == id);
+        var restaurant = await dbContext.Restaurants.Include(r => r.Dishes).FirstOrDefaultAsync(r => r.Id == id);
         return restaurant;
     }
     public Task SaveChanges()
